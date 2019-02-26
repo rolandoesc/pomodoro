@@ -1,13 +1,16 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-6 offset-lg-5">
+      <div class="col-lg-6 offset-lg-3">
         <i class="material-icons" @click="addMinute">add</i>
         <i class="material-icons" @click="subMinute">remove</i>
+        <div class="d-flex justify-content-center">
+
         <div class="clock">
           <p class="align-middle">
             <span v-show="initialMinutes < 10">0</span>{{initialMinutes}}:<span v-show="initialTime < 10">0</span>{{initialTime}}
           </p>
+        </div>
         </div>
         <i class="material-icons">pause</i>
         <i class="material-icons">play_arrow</i>
