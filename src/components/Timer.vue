@@ -8,12 +8,18 @@
 
         <div class="clock">
           <p class="align-middle">
-            <span v-show="initialMinutes < 10">0</span>{{initialMinutes}}:<span v-show="initialTime < 10">0</span>{{initialTime}}
+            <span v-if="!(initialMinutes < 0)">
+              <span v-show="initialMinutes < 10">0</span>{{initialMinutes}}:<span v-show="initialTime < 10">0</span>{{initialTime}}
+              
+            </span>
+            <span v-else-if="initialMinutes < 0">
+              <span v-show="breakMinutes < 10">0</span>{{breakMinutes}}:<span v-show="breakSeconds < 10">0</span>{{breakSeconds}}
+            </span>
           </p>
         </div>
         </div>
-        <i class="material-icons">pause</i>
-        <i class="material-icons">play_arrow</i>
+        <i class="material-icons" @click="paused = true">pause</i>
+        <i class="material-icons" @click="paused = false">play_arrow</i>
         
         <i class="material-icons" @click="reset">repeat</i>
 
@@ -28,16 +34,23 @@
       return {
         initialTime: 0,
         initialMinutes: 25,
+        paused: true,
+        breakMinutes: 5,
+        breakSeconds: 0
       }
     },
     methods: {
       secondsFormatter: function() {
-        if (this.initialMinutes >= 0) {
-        this.initialTime--;
-          if (this.initialTime < 0) {
-            this.initialTime = 59;
-            this.initialMinutes --;
+        if (!this.paused) {
+          if (this.initialMinutes >= 0) {
+            // this.paused = this.initialTime === 0 && this.initialMinutes === 0 ? true : false 
+            this.initialTime--;
+            if (this.initialTime < 0) {
+              this.initialTime = 59;
+              this.initialMinutes --;
+            }
           }
+
         }
       },
       addMinute: function() {
@@ -49,6 +62,7 @@
       reset: function() {
         this.initialTime = 0
         this.initialMinutes = 25
+        this.paused = true
       }
     },
     created: function() {
@@ -68,5 +82,8 @@
   }
   .clock > p {
     margin-top: 40%;
+  }
+  i {
+    cursor: pointer;
   }
 </style>
